@@ -2,12 +2,15 @@ export default class ship {
   #length;
   #hits;
   #sunk;
-  constructor() {}
+  constructor(length) {
+    this.#length = length;
+  }
   hit() {
     this.#hits++;
   }
 
   isSunk() {
-    return this.#hits == this.#length ? true : false;
+    this.#hits == this.#length ? (this.#sunk = true) : (this.#sunk = false);
+    return this.#sunk;
   }
 }
