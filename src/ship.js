@@ -1,7 +1,7 @@
 export default class ship {
   #length;
-  #hits;
-  #sunk;
+  #hits=0;
+  #sunk=false;
   constructor(length) {
     this.#length = length;
   }
