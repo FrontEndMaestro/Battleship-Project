@@ -36,8 +36,24 @@ describe("Place Ships", () => {
     expect(gameBoard.ships[4].ship.getLength()).toBe(2);
   });
 
-  gameBoard.placeShips();
+  test("Each ship has a position value to store coordinates", () => {
+    gameBoard.ships.forEach((element) => {
+      expect(element.position).toEqual([]);
+    });
+  });
+
   test("ship is placed at specific location", () => {
-    expect(gameBoard.ships[4].position).toStrictEqual(["11", "21"]);
+    gameBoard.placeShips("11", "21", 3);
+    expect(gameBoard.ships.find((element) => element.id == 3).position).toEqual(
+      ["11", "21"],
+    );
+    gameBoard.placeShips("00", "54", 4);
+    expect(gameBoard.ships.find((element) => element.id == 4).position).toEqual(
+      ["00", "54"],
+    );
+  });
+
+  test.only("Incorrect ship id results in an error", () => {
+    expect(() => gameBoard.placeShips("32", "43", 6)).toThrow();
   });
 });
