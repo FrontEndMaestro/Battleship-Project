@@ -19,14 +19,14 @@ export default class Gameboard {
   }
 
   placeShips(startPosition, endPosition, shipID) {
-    if (shipID >= this.ships.length) throwError("Hello");
+    if (shipID >= 6) throwError("Hello");
     if (this.checkCordinateValidity(startPosition, endPosition, shipID)) {
       this.ships[shipID].position.push(startPosition);
       this.ships[shipID].position.push(endPosition);
-      return true
+      return true;
     }
 
-    return false
+    return false;
   }
 
   checkCordinateValidity(startPosition, endPosition, index) {
@@ -46,9 +46,21 @@ export default class Gameboard {
   }
 
   attackHit(x, y) {
-    return this.ships.findIndex(
-      (element) => element.position[0] == x && element.position[1] == y,
-    );
+    return this.ships.findIndex((element) => {
+      if (element.position.length!=0) {
+        console.log(element);
+        return (
+          (element.position[0][0] == x && element.position[0][1] == y) ||
+          (element.position[1][0] == x && element.position[1][1] == y) ||
+          (x >= element.position[0][0] &&
+            x <= element.position[1][0] &&
+            y >= element.position[0][1] &&
+            y <= element.position[1][1])
+        );
+      }
+      return false;
+      //  (element) => element.position[0] == x && element.position[1] == y,
+    });
   }
 
   receiveAttack(x, y) {
