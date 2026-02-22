@@ -19,8 +19,8 @@ export default class Gameboard {
   }
 
   placeShips(startPosition, endPosition, shipID) {
-    if (shipID >= 6) throwError("Hello");
-    if (this.checkCordinateValidity(startPosition, endPosition, shipID)) {
+    //if (shipID >= 6) throwError("Hello");
+    if (this.checkCoordinateValidity(startPosition, endPosition, shipID)) {
       this.ships[shipID].position.push(startPosition);
       this.ships[shipID].position.push(endPosition);
       return true;
@@ -29,15 +29,15 @@ export default class Gameboard {
     return false;
   }
 
-  checkCordinateValidity(startPosition, endPosition, index) {
+  checkCoordinateValidity(startPosition, endPosition, index) {
     let shipLength = this.ships[index].ship.getLength();
     if (
       startPosition.every((value) => value < 10 && value >= 0) &&
       endPosition.every((value) => value < 10 && value >= 0)
     ) {
       if (
-        startPosition[0] + endPosition[0] + 1 == shipLength ||
-        startPosition[1] + endPosition[1] + 1 == shipLength
+        Math.abs(startPosition[0] - endPosition[0]) + 1 == shipLength ||
+        Math.abs(startPosition[1] - endPosition[1]) + 1 == shipLength
       ) {
         return true;
       }
