@@ -46,6 +46,7 @@ describe("Place Ships", () => {
     expect(gameBoard.placeShips([0, 0], [1, 0], 4)).toBe(true);
     expect(gameBoard.placeShips([0, 0], [2, 0], 4)).toBe(false);
     expect(gameBoard.placeShips([10, 10], [10, 8], 4)).toBe(false);
+    expect(gameBoard.placeShips([5, 5], [5, 9], 1)).toBe(false);
   });
 
   test("Incorrect ship id results in an error", () => {

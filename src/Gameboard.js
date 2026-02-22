@@ -47,8 +47,7 @@ export default class Gameboard {
 
   attackHit(x, y) {
     return this.ships.findIndex((element) => {
-      if (element.position.length!=0) {
-        console.log(element);
+      if (element.position.length != 0) {
         return (
           (element.position[0][0] == x && element.position[0][1] == y) ||
           (element.position[1][0] == x && element.position[1][1] == y) ||
@@ -59,13 +58,17 @@ export default class Gameboard {
         );
       }
       return false;
-      //  (element) => element.position[0] == x && element.position[1] == y,
     });
   }
 
   receiveAttack(x, y) {
     let index = this.attackHit(x, y);
     if (index != -1) this.ships[index].ship.hit();
-    else this.missedShotsCoordinates.push({ x, y });
+    else if (x < 10 && x >= 0 && y <= 0 && y < 10)
+      this.missedShotsCoordinates.push({ x, y });
+  }
+
+  allShipsSunk() {
+    this.ships.every((element) => element.ship.isSunk());
   }
 }
