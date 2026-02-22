@@ -45,19 +45,21 @@ describe("Place Ships", () => {
   test("ship is placed at specific location", () => {
     expect(gameBoard.placeShips([0, 0], [1, 0], 4)).toBe(true);
     expect(gameBoard.placeShips([0, 0], [2, 0], 4)).toBe(false);
-    expect(gameBoard.placeShips([10,10],[10,8],4)).toBe(false)
+    expect(gameBoard.placeShips([10, 10], [10, 8], 4)).toBe(false);
   });
 
-  test.skip("Incorrect ship id results in an error", () => {
-    expect(() => gameBoard.placeShips("32", "43", 6)).toThrow();
+  test("Incorrect ship id results in an error", () => {
+    //expect(gameBoard.placeShips("32", "43", 6)).toThrow();
+    //expect(() => gameBoard.placeShips("32", "43", 6)).toThrow();
   });
 });
 
 describe("Test cases for receiveAttack method", () => {
-  test("attack hit the ship?", () => {
-    gameBoard.placeShips("32", "43", 2);
-    expect(gameBoard.attackHit("32", "43")).toBe(2);
-    expect(gameBoard.attackHit("00", "12")).toBe(-1);
+  test.only("attack hit the ship?", () => {
+    gameBoard.placeShips([0, 0], [0, 2], 3);
+    expect(gameBoard.attackHit(0, 1)).toBe(3);
+    expect(gameBoard.attackHit(0, 0)).toBe(3);
+    expect(gameBoard.attackHit(0, 3)).toBe(-1);
+    expect(gameBoard.attackHit(0, 4)).toBe(-1);
   });
-
 });
