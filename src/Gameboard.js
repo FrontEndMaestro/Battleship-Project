@@ -64,11 +64,12 @@ export default class Gameboard {
   receiveAttack(x, y) {
     let index = this.attackHit(x, y);
     if (index != -1) this.ships[index].ship.hit();
-    else if (x < 10 && x >= 0 && y <= 0 && y < 10)
+    else if (x < 10 && x >= 0 && y >= 0 && y < 10) {
       this.missedShotsCoordinates.push({ x, y });
+    }
   }
 
   allShipsSunk() {
-    this.ships.every((element) => element.ship.isSunk());
+    return this.ships.every((element) => element.ship.isSunk());
   }
 }
