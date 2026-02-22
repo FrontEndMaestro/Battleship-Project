@@ -56,11 +56,58 @@ describe("Place Ships", () => {
 });
 
 describe("Test cases for receiveAttack method", () => {
-  test.only("attack hit the ship?", () => {
+  test("attack hit the ship?", () => {
     gameBoard.placeShips([0, 0], [0, 2], 3);
     expect(gameBoard.attackHit(0, 1)).toBe(3);
     expect(gameBoard.attackHit(0, 0)).toBe(3);
     expect(gameBoard.attackHit(0, 3)).toBe(-1);
     expect(gameBoard.attackHit(0, 4)).toBe(-1);
+  });
+
+  test("call attackHit with invalid coordinates", () => {
+    expect(gameBoard.attackHit(10, 10)).toBe(-1);
+  });
+
+  test("missed attacks are stored in missedShotsCoordinates", () => {
+    gameBoard.receiveAttack(5, 5);
+    expect(
+      gameBoard.missedShotsCoordinates.some(
+        (element) => element.x == 5 && element.y == 5,
+      ),
+    ).toBe(true);
+  });
+
+  test("missed attacks with out of bound positions are not stored in missedShots", () => {
+    gameBoard.receiveAttack(10, 10);
+    expect(
+      gameBoard.missedShotsCoordinates.some(
+        (element) => element.x == 10 && element.y == 10,
+      ),
+    ).toBe(false);
+    gameBoard.receiveAttack(12, 12);
+    expect(
+      gameBoard.missedShotsCoordinates.some(
+        (element) => element.x == 12 && element.y == 12,
+      ),
+    ).toBe(false);
+  });
+
+  describe("All ships sunk?", () => {
+    gameBoard.placeShips([0, 0], [0, 2], 3);
+   // gameBoard.placeShips([5, 5], [5, 9], 0);
+    gameBoard.receiveAttack(5, 5);
+    gameBoard.receiveAttack(0, 0);
+    gameBoard.receiveAttack(0, 1);
+    gameBoard.receiveAttack(0, 2);
+
+    test("check if a ship is sunk when all positions are attacked", () => {
+      expect(gameBoard.ships[3].ship.isSunk()).toBe(true);
+    });
+
+
+    test.only("ship isnt sunk if some positions are not attacked", () => {
+     /*  expect(gameBoard.placeShips([5, 5], [9, 5], 0)).toBe(true)
+      expect(gameBoard.ships[0].ship.isSunk()).toBe(false);
+    */});
   });
 });
