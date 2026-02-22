@@ -13,6 +13,10 @@ export default class ship {
     return this.#length;
   }
 
+  getHits() {
+    return this.#hits;
+  }
+
   isSunk() {
     this.#hits == this.#length ? (this.#sunk = true) : (this.#sunk = false);
     return this.#sunk;

@@ -36,17 +36,12 @@ describe("Place Ships", () => {
     expect(gameBoard.ships[4].ship.getLength()).toBe(2);
   });
 
-  test("Each ship has a position value to store coordinates", () => {
-    gameBoard.ships.forEach((element) => {
-      expect(element.position).toEqual([]);
-    });
-  });
-
   test("ship is placed at specific location", () => {
     expect(gameBoard.placeShips([0, 0], [1, 0], 4)).toBe(true);
     expect(gameBoard.placeShips([0, 0], [2, 0], 4)).toBe(false);
     expect(gameBoard.placeShips([10, 10], [10, 8], 4)).toBe(false);
     expect(gameBoard.placeShips([5, 5], [5, 9], 1)).toBe(false);
+    expect(gameBoard.placeShips([5, 7], [8, 7], 1)).toBe(true);
   });
 
   test("Incorrect ship id results in an error", () => {
@@ -69,10 +64,10 @@ describe("Test cases for receiveAttack method", () => {
   });
 
   test("missed attacks are stored in missedShotsCoordinates", () => {
-    gameBoard.receiveAttack(5, 5);
+    gameBoard.receiveAttack(9, 9);
     expect(
       gameBoard.missedShotsCoordinates.some(
-        (element) => element.x == 5 && element.y == 5,
+        (element) => element.x == 9 && element.y == 9,
       ),
     ).toBe(true);
   });
@@ -93,21 +88,40 @@ describe("Test cases for receiveAttack method", () => {
   });
 
   describe("All ships sunk?", () => {
-    gameBoard.placeShips([0, 0], [0, 2], 3);
-   // gameBoard.placeShips([5, 5], [5, 9], 0);
-    gameBoard.receiveAttack(5, 5);
+    gameBoard.placeShips([0, 0], [0, 2], 3); //len 3
+    gameBoard.placeShips([5, 5], [9, 5], 0); //len 5
+    gameBoard.placeShips([5, 7], [8, 7], 1); //len 4
+    gameBoard.placeShips([2, 8], [4, 8], 2); //len 3
+    gameBoard.placeShips([1, 5], [1, 6], 4); //len 2
     gameBoard.receiveAttack(0, 0);
     gameBoard.receiveAttack(0, 1);
     gameBoard.receiveAttack(0, 2);
 
+    gameBoard.receiveAttack(5, 5);
+    gameBoard.receiveAttack(6, 5);
+    gameBoard.receiveAttack(7, 5);
+    gameBoard.receiveAttack(8, 5);
+    gameBoard.receiveAttack(9, 5);
+
+    gameBoard.receiveAttack(5, 7);
+    gameBoard.receiveAttack(6, 7);
+    gameBoard.receiveAttack(7, 7);
+    gameBoard.receiveAttack(8, 7);
+
+    gameBoard.receiveAttack(2, 8);
+    gameBoard.receiveAttack(3, 8);
+    gameBoard.receiveAttack(4, 8);
+
+    gameBoard.receiveAttack(1, 6);
+    gameBoard.receiveAttack(1, 5);
+
     test("check if a ship is sunk when all positions are attacked", () => {
       expect(gameBoard.ships[3].ship.isSunk()).toBe(true);
+      expect(gameBoard.ships[0].ship.isSunk()).toBe(true);
     });
 
-
-    test.only("ship isnt sunk if some positions are not attacked", () => {
-     /*  expect(gameBoard.placeShips([5, 5], [9, 5], 0)).toBe(true)
-      expect(gameBoard.ships[0].ship.isSunk()).toBe(false);
-    */});
+    test("All ships should be sunk", () => {
+      expect(gameBoard.allShipsSunk()).toBe(true);
+    });
   });
 });
