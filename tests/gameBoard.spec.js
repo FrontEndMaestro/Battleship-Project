@@ -2,10 +2,6 @@ import Gameboard from "../src/Gameboard.js";
 import ship from "../src/ship.js";
 let gameBoard = new Gameboard();
 describe("Gameboard class", () => {
-  test("Gameboard class exists", () => {
-    expect(Gameboard).toBeDefined();
-  });
-
   test("gameboard has a board", () => {
     expect(gameBoard.board).toBeDefined();
   });
@@ -17,9 +13,6 @@ describe("Gameboard class", () => {
 });
 
 describe("Place Ships", () => {
-  test("function placeShips exists", () => {
-    expect(gameBoard.placeShips).toBeDefined();
-  });
   test("Define data structure to store ships", () => {
     expect(gameBoard.ships).toBeDefined();
     expect(gameBoard.ships.length).toBe(5);
@@ -44,10 +37,6 @@ describe("Place Ships", () => {
     expect(gameBoard.placeShips([5, 7], [8, 7], 1)).toBe(true);
   });
 
-  test("Incorrect ship id results in an error", () => {
-    //expect(gameBoard.placeShips("32", "43", 6)).toThrow();
-    //expect(() => gameBoard.placeShips("32", "43", 6)).toThrow();
-  });
 });
 
 describe("Test cases for receiveAttack method", () => {
