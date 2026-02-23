@@ -1,17 +1,18 @@
 import newGame from "../src/newGame.js";
 import player from "../src/Player.js";
-import gameBoard from "../src/Gameboard.js";
+import renderGameboard from "../src/renderGameboard.js";
 
 beforeEach(() => {
   mockPlaceShips.mockClear();
   player.mockClear();
 });
 
-afterAll(()=>{
-    mockPlaceShips.mockRestore()
-    player.mockRestore()
-})
+afterAll(() => {
+  mockPlaceShips.mockRestore();
+  player.mockRestore();
+});
 
+jest.mock(renderGameboard);
 const mockPlaceShips = jest.fn(() => 1);
 jest.mock("../src/Player.js", () => {
   return jest.fn().mockImplementation(() => {
@@ -30,6 +31,6 @@ test("check player class is called two time", () => {
 });
 
 test("place ships is called 10 times", () => {
-    newGame()
-    expect(mockPlaceShips).toHaveBeenCalledTimes(10)
+  newGame();
+  expect(mockPlaceShips).toHaveBeenCalledTimes(10);
 });
