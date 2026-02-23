@@ -1,5 +1,4 @@
 import ship from "./ship.js";
-import throwError from "./Error.js";
 export default class Gameboard {
   ships = [];
   missedShotsCoordinates = [];
@@ -19,7 +18,7 @@ export default class Gameboard {
   }
 
   placeShips(startPosition, endPosition, shipID) {
-    //if (shipID >= 6) throwError("Hello");
+    if (shipID >= 5) throw Error("Incorrect ship");
     if (this.checkCoordinateValidity(startPosition, endPosition, shipID)) {
       this.ships[shipID].position.push(startPosition);
       this.ships[shipID].position.push(endPosition);
