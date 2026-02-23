@@ -1,4 +1,4 @@
-import { player } from "./Player";
+import player  from "./Player";
 export default function renderGameboard(player) {
   const boardDiv = document.createElement("div");
   for (let i = 0; i < 10; i++) {

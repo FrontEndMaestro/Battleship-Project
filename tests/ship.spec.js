@@ -1,14 +1,18 @@
 import shipClass from "../src/ship.js";
 
 describe("Ship Class", () => {
-  let ship = new shipClass(3);
-  ship.hit();
-  test.skip("ship is hurt but not dead", () => {
+  test("ship is hurt but not dead", () => {
+    let ship = new shipClass(3);
+    ship.hit();
+    ship.hit();
     expect(ship.isSunk()).toBe(false);
   });
-  ship.hit();
-  ship.hit();
-  test.skip("ship is dead", () => {
-    expect(ship.isSunk()).toBe(true);
+
+  test("ship is dead", () => {
+    let ship2 = new shipClass(3);
+    ship2.hit();
+    ship2.hit();
+    ship2.hit();
+    expect(ship2.isSunk()).toBe(true);
   });
 });
