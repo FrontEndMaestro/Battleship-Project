@@ -1,13 +1,16 @@
-import player  from "./Player";
 export default function renderGameboard(player) {
   const boardDiv = document.createElement("div");
-  for (let i = 0; i < 10; i++) {
-    for (let j = 0; j < 10; j++) {
+  boardDiv.classList.add('game-board')
+  boardDiv.id = player.type;
+  player.gameBoard.board.forEach((row, x) => {
+    row.forEach((cell, y) => {
       let gridCell = document.createElement("div");
-      gridCell.classList.add(itemcell);
-      gridCell.id = `${x - y}`;
+      gridCell.classList.add('cell');
+      gridCell.id = `${x-y}`;
+      gridCell.textContent = cell;
       boardDiv.appendChild(gridCell);
-    }
-  }
-  player.gameBoard.ships.forEach(element);
+    });
+  });
 }
+
+
