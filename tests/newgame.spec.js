@@ -1,6 +1,5 @@
 import newGame from "../src/newGame.js";
 import player from "../src/Player.js";
-import renderGameboard from "../src/renderGameboard.js";
 
 beforeEach(() => {
   mockPlaceShips.mockClear();
@@ -12,7 +11,7 @@ afterAll(() => {
   player.mockRestore();
 });
 
-jest.mock(renderGameboard);
+jest.mock("../src/renderGameboard.js");
 const mockPlaceShips = jest.fn(() => 1);
 jest.mock("../src/Player.js", () => {
   return jest.fn().mockImplementation(() => {

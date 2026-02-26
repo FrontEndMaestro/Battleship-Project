@@ -4,7 +4,7 @@ export default class Gameboard {
   missedShotsCoordinates = [];
 
   constructor() {
-    this.board = Array.from({ length: 10 }, () => new Array(10).fill(0));
+    this.board = Array.from({ length: 10 }, () => new Array(10).fill(-1));
     this.ships = this.initializeShips();
   }
 
@@ -22,10 +22,31 @@ export default class Gameboard {
     if (this.checkCoordinateValidity(startPosition, endPosition, shipID)) {
       this.ships[shipID].position.push(startPosition);
       this.ships[shipID].position.push(endPosition);
+      //this.updateBoard(startPosition, endPosition, shipID);
       return true;
     }
 
     return false;
+  }
+
+  updateBoard(startPosition, endPosition, shipID) {
+    let numOfCells = this.ships[shipID].ship.getLength();
+    let allCoordinates = [];
+    if (startPosition[0] == endPosition[0]) {
+      //vertical alignment
+      for (let i = 0; i <= numOfCells; i++) {
+        allCoordinates.push([startPosition[0], startPosition[1] + i]);
+      }
+    } else if (startPosition[1] == endPosition[1]) {
+      //horizontal alignment
+      for (let i = 0; i < numOfCells; i++) {
+        allCoordinates.push([startPosition[0] + i, startPosition[1]]);
+      }
+    }
+
+    allCoordinates.forEach((coordinate) => {
+      this.board[coordinate[0]][coordinate[1]] = shipID;
+    });
   }
 
   checkCoordinateValidity(startPosition, endPosition, index) {
