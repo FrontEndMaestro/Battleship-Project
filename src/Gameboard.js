@@ -22,7 +22,7 @@ export default class Gameboard {
     if (this.checkCoordinateValidity(startPosition, endPosition, shipID)) {
       this.ships[shipID].position.push(startPosition);
       this.ships[shipID].position.push(endPosition);
-      //this.updateBoard(startPosition, endPosition, shipID);
+      this.updateBoard(startPosition, endPosition, shipID);
       return true;
     }
 
