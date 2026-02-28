@@ -8,7 +8,8 @@ export default function renderGameboard(player) {
       let gridCell = document.createElement("div");
       gridCell.classList.add("cell");
       gridCell.id = `${x - y}`;
-      gridCell.textContent = cell;
+      if (cell != -1) 
+     gridCell.textContent = cell;
       boardDiv.appendChild(gridCell);
     });
   });
