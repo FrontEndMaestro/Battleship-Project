@@ -34,7 +34,7 @@ export default class Gameboard {
     let allCoordinates = [];
     if (startPosition[0] == endPosition[0]) {
       //vertical alignment
-      for (let i = 0; i <= numOfCells; i++) {
+      for (let i = 0; i < numOfCells; i++) {
         allCoordinates.push([startPosition[0], startPosition[1] + i]);
       }
     } else if (startPosition[1] == endPosition[1]) {
@@ -45,7 +45,7 @@ export default class Gameboard {
     }
 
     allCoordinates.forEach((coordinate) => {
-      this.board[coordinate[0]][coordinate[1]] = shipID;
+      this.board[coordinate[1]][coordinate[0]] = shipID;
     });
   }
 
@@ -83,10 +83,12 @@ export default class Gameboard {
 
   receiveAttack(x, y) {
     let index = this.attackHit(x, y);
-    if (index != -1) this.ships[index].ship.hit();
-    else if (x < 10 && x >= 0 && y >= 0 && y < 10) {
+    if (index != -1) {
+      this.ships[index].ship.hit();
+    } else if (x < 10 && x >= 0 && y >= 0 && y < 10) {
       this.missedShotsCoordinates.push({ x, y });
     }
+    this.board[y][x] = "X";
   }
 
   allShipsSunk() {
