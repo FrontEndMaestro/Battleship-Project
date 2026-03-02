@@ -130,5 +130,11 @@ describe("Register ship positions on board", () => {
     expect(gameBoard2.board[5][7]).toBe(0);
     expect(gameBoard2.board[5][8]).toBe(0);
     expect(gameBoard2.board[5][9]).toBe(0);
+
+    gameBoard2.updateBoard([0, 0], [2, 0], 3);
+    expect(gameBoard2.board[0][0]).toBe(3);
+    expect(gameBoard2.board[1][0]).toBe(3);
+    expect(gameBoard2.board[2][0]).toBe(3);
+    expect(gameBoard2.board[3][0]).toBe(-1)
   });
 });
