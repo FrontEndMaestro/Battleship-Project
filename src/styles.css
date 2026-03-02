@@ -82,17 +82,21 @@ body {
 
 .game-board {
   display: grid;
-  grid-template-columns: repeat(10,minmax(1rem,2.5rem));
-  grid-template-rows: repeat(10, minmax(1rem,2.5rem));
+  grid-template-columns: repeat(10, minmax(1rem, 2.5rem));
+  grid-template-rows: repeat(10, minmax(1rem, 2.5rem));
   place-items: center;
   border: 1px solid black;
 }
 
-.cell{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid black;
-    padding:10px;
-    place-self:stretch;
+.cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  padding: 10px;
+  place-self: stretch;
+}
+
+.hit {
+  background-color: red;
 }
