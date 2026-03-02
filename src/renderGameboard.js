@@ -7,9 +7,9 @@ export default function renderGameboard(player) {
     row.forEach((cell, y) => {
       let gridCell = document.createElement("div");
       gridCell.classList.add("cell");
-      gridCell.id = `${x - y}`;
-      if (cell != -1) 
-     gridCell.textContent = cell;
+      gridCell.id = `${x}` +'-' +`${y}`;
+      if (cell != -1)
+        gridCell.textContent = cell;
       boardDiv.appendChild(gridCell);
     });
   });
