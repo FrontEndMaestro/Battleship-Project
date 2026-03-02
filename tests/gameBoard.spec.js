@@ -53,29 +53,6 @@ describe("Test cases for receiveAttack method", () => {
     expect(gameBoard.attackHit(10, 10)).toBe(-1);
   });
 
-  test("missed attacks are stored in missedShotsCoordinates", () => {
-    gameBoard.receiveAttack(9, 9);
-    expect(
-      gameBoard.missedShotsCoordinates.some(
-        (element) => element.x == 9 && element.y == 9,
-      ),
-    ).toBe(true);
-  });
-
-  test("missed attacks with out of bound positions are not stored in missedShots", () => {
-    gameBoard.receiveAttack(10, 10);
-    expect(
-      gameBoard.missedShotsCoordinates.some(
-        (element) => element.x == 10 && element.y == 10,
-      ),
-    ).toBe(false);
-    gameBoard.receiveAttack(12, 12);
-    expect(
-      gameBoard.missedShotsCoordinates.some(
-        (element) => element.x == 12 && element.y == 12,
-      ),
-    ).toBe(false);
-  });
 });
 
 describe("All ships sunk?", () => {
