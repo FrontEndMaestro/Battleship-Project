@@ -120,21 +120,21 @@ describe("Register ship positions on board", () => {
   let gameBoard2 = new Gameboard();
   test("method marks the coordinates with id of the ship", () => {
     gameBoard2.updateBoard([0, 1], [0, 3], 3);
-    expect(gameBoard2.board[0][1]).toBe(3);
-    expect(gameBoard2.board[0][2]).toBe(3);
-    expect(gameBoard2.board[0][3]).toBe(3);
+    expect(gameBoard2.board[1][0]).toBe(3);
+    expect(gameBoard2.board[2][0]).toBe(3);
+    expect(gameBoard2.board[3][0]).toBe(3);
 
     gameBoard2.updateBoard([5, 5], [5, 9], 0);
     expect(gameBoard2.board[5][5]).toBe(0);
-    expect(gameBoard2.board[5][6]).toBe(0);
-    expect(gameBoard2.board[5][7]).toBe(0);
-    expect(gameBoard2.board[5][8]).toBe(0);
-    expect(gameBoard2.board[5][9]).toBe(0);
+    expect(gameBoard2.board[6][5]).toBe(0);
+    expect(gameBoard2.board[7][5]).toBe(0);
+    expect(gameBoard2.board[8][5]).toBe(0);
+    expect(gameBoard2.board[9][5]).toBe(0);
 
     gameBoard2.updateBoard([0, 0], [2, 0], 3);
     expect(gameBoard2.board[0][0]).toBe(3);
-    expect(gameBoard2.board[1][0]).toBe(3);
-    expect(gameBoard2.board[2][0]).toBe(3);
-    expect(gameBoard2.board[3][0]).toBe(-1)
+    expect(gameBoard2.board[0][1]).toBe(3);
+    expect(gameBoard2.board[0][2]).toBe(3);
+    expect(gameBoard2.board[0][3]).toBe(-1)
   });
 });
