@@ -85,10 +85,12 @@ export default class Gameboard {
     let index = this.attackHit(x, y);
     if (index != -1) {
       this.ships[index].ship.hit();
+      this.board[y][x] = "O";
+      return true;
     } else if (x < 10 && x >= 0 && y >= 0 && y < 10) {
-      this.missedShotsCoordinates.push({ x, y });
+      this.board[y][x] = "X";
+      return false;
     }
-    this.board[y][x] = "X";
   }
 
   allShipsSunk() {
