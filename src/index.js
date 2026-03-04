@@ -43,6 +43,8 @@ function startGame(player1, player2) {
           let currentPlayer =
             e.target.parentElement.id == player1.type ? player1 : player2;
           registerHit(e.target.id, currentPlayer);
+          checkForWinner(player1, player2);
+          changeTurn(turn);
         }
       });
     });
@@ -64,5 +66,17 @@ function startGame(player1, player2) {
     }
 
     playerBoard.classList.add("current-turn");
+  }
+
+  function checkForWinner(player1, player2) {
+    if (
+      player1.gameBoard.ships.every((shipObject) => shipObject.ship.isSunk())
+    ) {
+      alert("Player2 wins");
+    } else if (
+      player2.gameBoard.ships.every((shipObject) => shipObject.ship.isSunk())
+    ) {
+      alert("Player1 wins");
+    }
   }
 }
