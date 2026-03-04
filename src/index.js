@@ -39,7 +39,10 @@ function startGame(player1, player2) {
     let gridCell = document.querySelectorAll(".cell");
     gridCell.forEach((cell) => {
       cell.addEventListener("click", (e) => {
-        if (validateTurn(e.target.parentElement.id)) {
+        if (
+          checkDuplicateHit(cell) &&
+          validateTurn(e.target.parentElement.id)
+        ) {
           let currentPlayer =
             e.target.parentElement.id == player1.type ? player1 : player2;
           registerHit(e.target.id, currentPlayer);
@@ -48,6 +51,14 @@ function startGame(player1, player2) {
         }
       });
     });
+  }
+
+  function checkDuplicateHit(cell) {
+    if (cell.textContent == "X" || cell.textContent == "O") {
+      alert("this cell already hit");
+      return false;
+    }
+    return true;
   }
 
   function validateTurn(gridId) {
@@ -82,8 +93,8 @@ function startGame(player1, player2) {
 
   function startNewGame(winMessage) {
     setTimeout(() => {
-        alert(winMessage);
-      }, 2000);
+      alert(winMessage);
+    }, 2000);
     setTimeout(() => {
       let event = new Event("DOMContentLoaded");
       console.log(event);
