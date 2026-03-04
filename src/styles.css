@@ -22,6 +22,8 @@ body {
   line-height: 1.5;
   /* 5. Improve text rendering */
   -webkit-font-smoothing: antialiased;
+  background-color: black;
+  color: white;
 }
 
 /* 6. Improve media defaults */
@@ -86,17 +88,36 @@ body {
   grid-template-rows: repeat(10, minmax(1rem, 2.5rem));
   place-items: center;
   border: 1px solid black;
+  border: 10px solid transparent;
 }
 
 .cell {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid black;
+  border: 5px double #368aa8;
   padding: 10px;
   place-self: stretch;
 }
 
 .hit {
   background-color: red;
+}
+
+.display-name {
+  position: absolute;
+  top: 16%;
+}
+
+.current-turn {
+  border: 10px #fab9b0;
+  border-style: dotted dashed;
+  animation: blink 1s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes blink{
+  50% {
+    border-color: black;
+  }
 }
