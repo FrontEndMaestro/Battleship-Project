@@ -14,9 +14,11 @@ window.addEventListener("DOMContentLoaded", () => {
 function startGame(player1, player2) {
   setEventListener(player1, player2, validateTurn, registerHit);
   let turn = player1.type;
+  displayTurn(turn, player2.type);
 
   function changeTurn(playerType) {
     playerType == player1.type ? (turn = player2.type) : (turn = player1.type);
+    displayTurn(turn, turn == player1.type ? player2.type : player1.type);
   }
 
   function updateBoards() {
@@ -47,13 +49,20 @@ function startGame(player1, player2) {
   }
 
   function validateTurn(gridId) {
-    if (gridId == turn) {
-      changeTurn(turn);
-      console.log("now turn is", turn);
+    if (gridId != turn) {
       return true;
     }
     return false;
   }
 
-  function displayTurn() {}
+  function displayTurn(turn, playerWithoutTurn) {
+    //console.log("turn is", turn, "player without turn is", playerWithoutTurn);
+    const playerBoard = document.querySelector(`#${turn}`);
+    const playerWatching = document.querySelector(`#${playerWithoutTurn}`);
+    if (playerWatching.classList.contains("current-turn")) {
+      playerWatching.classList.remove("current-turn");
+    }
+
+    playerBoard.classList.add("current-turn");
+  }
 }
