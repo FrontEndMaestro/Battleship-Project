@@ -13,6 +13,7 @@ export default function renderGameboard(player) {
       boardDiv.appendChild(gridCell);
     });
   });
+  displayPlayerName(boardDiv);
   body.appendChild(boardDiv);
 }
 
@@ -20,4 +21,12 @@ function markShipHit(cell) {
   if (cell.textContent == "O") {
     cell.classList.add("hit");
   }
+}
+
+function displayPlayerName(gridContainer) {
+  let display = document.createElement("span");
+  display.textContent =
+    gridContainer.id.charAt(0).toUpperCase() + gridContainer.id.slice(1);
+  display.classList.add("display-name");
+  gridContainer.appendChild(display);
 }
