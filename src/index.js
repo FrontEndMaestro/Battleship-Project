@@ -72,11 +72,22 @@ function startGame(player1, player2) {
     if (
       player1.gameBoard.ships.every((shipObject) => shipObject.ship.isSunk())
     ) {
-      alert("Player2 wins");
+      startNewGame("Player2 wins");
     } else if (
       player2.gameBoard.ships.every((shipObject) => shipObject.ship.isSunk())
     ) {
-      alert("Player1 wins");
+      startNewGame("Player1 wins");
     }
+  }
+
+  function startNewGame(winMessage) {
+    setTimeout(() => {
+        alert(winMessage);
+      }, 2000);
+    setTimeout(() => {
+      let event = new Event("DOMContentLoaded");
+      console.log(event);
+      window.dispatchEvent(event);
+    }, 2000);
   }
 }
