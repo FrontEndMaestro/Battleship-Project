@@ -6,7 +6,8 @@ export default class ship {
     this.#length = length;
   }
   hit() {
-    if (!this.isSunk()) this.#hits++;
+    this.#hits++;
+    this.isSunk()
   }
 
   getLength() {
