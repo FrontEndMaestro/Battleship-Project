@@ -11,7 +11,6 @@ afterAll(() => {
   player.mockRestore();
 });
 
-jest.mock("../src/renderGameboard.js");
 const mockPlaceShips = jest.fn(() => 1);
 jest.mock("../src/Player.js", () => {
   return jest.fn().mockImplementation(() => {

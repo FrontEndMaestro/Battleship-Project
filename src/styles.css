@@ -112,7 +112,7 @@ body {
 .current-turn {
   border: 10px #fab9b0;
   border-style: dotted dashed;
-  animation: blink 1s;
+  animation: blink .7s;
   animation-iteration-count: infinite;
 }
 

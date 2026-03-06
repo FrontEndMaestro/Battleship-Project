@@ -3,7 +3,6 @@ import gameBoard from "./Gameboard.js";
 import renderGameboard from "./renderGameboard.js";
 
 export default function newGame() {
-  document.querySelector("body").innerHTML=""
   let player1 = new player("human", new gameBoard());
   player1.gameBoard.placeShips([5, 5], [9, 5], 0);
   player1.gameBoard.placeShips([3, 7], [6, 7], 1);
