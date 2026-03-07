@@ -14,7 +14,7 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 function startGame(player1, player2) {
-  setEventListener(player1, player2, validateTurn, registerHit);
+  setEventListener(validateTurn, registerHit);
   let turn = player1.type;
   displayTurn(turn, player2.type);
 
@@ -29,16 +29,7 @@ function startGame(player1, player2) {
   function computerTurn(player2) {
     setTimeout(() => {
       let computerPosition = computerAttack(player2.gameBoard).reverse();
-      let humanGridCells = document.querySelectorAll("#human .cell");
-      humanGridCells.forEach((cell) => {
-        let cellId = cell.id.split("-");
-        if (
-          cellId[0] == computerPosition[0] &&
-          cellId[1] == computerPosition[1]
-        ) {
-          cell.dispatchEvent(new Event("click"));
-        }
-      });
+      registerHit(computerPosition.join("-"), player1);
     }, 2000);
   }
 
@@ -46,7 +37,7 @@ function startGame(player1, player2) {
     document.querySelector("body").innerHTML = "";
     renderGameboard(player1);
     renderGameboard(player2);
-    setEventListener(player1, player2, validateTurn, registerHit);
+    setEventListener(validateTurn, registerHit);
   }
 
   function registerHit(coordinates, player) {
@@ -54,21 +45,20 @@ function startGame(player1, player2) {
     let coordinateArray = coordinates.split("-").reverse();
     player.gameBoard.receiveAttack(coordinateArray[0], coordinateArray[1]);
     updateBoards();
+    checkForWinner(player1, player2);
+    changeTurn(turn);
   }
 
-  function setEventListener(player1, player2, validateTurn, registerHit) {
-    let gridCell = document.querySelectorAll(".cell");
+  function setEventListener(validateTurn, registerHit) {
+    let gridCell = document.querySelectorAll(`#${player2.type} > .cell`);
+
     gridCell.forEach((cell) => {
       cell.addEventListener("click", (e) => {
         if (
           checkDuplicateHit(cell) &&
           validateTurn(e.target.parentElement.id)
         ) {
-          let currentPlayer =
-            e.target.parentElement.id == player1.type ? player1 : player2;
-          registerHit(e.target.id, currentPlayer);
-          checkForWinner(player1, player2);
-          changeTurn(turn);
+          registerHit(e.target.id, player2);
         }
       });
     });
@@ -91,10 +81,12 @@ function startGame(player1, player2) {
   function displayTurn(turn, playerWithoutTurn) {
     const playerBoard = document.querySelector(`#${turn}`);
     const playerWatching = document.querySelector(`#${playerWithoutTurn}`);
-    const playerDisplay=document.querySelector(`#display-${turn}`)
-    const playerWatchingDisplay=document.querySelector(`#display-${playerWithoutTurn}`)
+    const playerDisplay = document.querySelector(`#display-${turn}`);
+    const playerWatchingDisplay = document.querySelector(
+      `#display-${playerWithoutTurn}`,
+    );
     if (playerWatching.classList.contains("current-turn")) {
-      playerWatchingDisplay.classList.remove("highlight-name")
+      playerWatchingDisplay.classList.remove("highlight-name");
       playerBoard.classList.remove("current-turn");
     }
 

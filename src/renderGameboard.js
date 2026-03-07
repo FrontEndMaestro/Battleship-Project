@@ -28,5 +28,6 @@ function displayPlayerName(gridContainer) {
   display.textContent =
     gridContainer.id.charAt(0).toUpperCase() + gridContainer.id.slice(1);
   display.classList.add("display-name");
+  display.id = "display-" + gridContainer.id;
   gridContainer.appendChild(display);
 }

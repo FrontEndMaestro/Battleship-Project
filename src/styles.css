@@ -75,7 +75,6 @@ h6 {
 
 body {
   display: flex;
-  gap: 1%;
   min-height: 100vh;
   align-items: center;
   justify-content: center;
@@ -106,7 +105,7 @@ body {
 
 .display-name {
   position: absolute;
-  top: 16%;
+  top: 14%;
 }
 
 .current-turn {
@@ -114,6 +113,11 @@ body {
   border-style: dotted dashed;
   animation: blink .7s;
   animation-iteration-count: infinite;
+}
+
+.highlight-name{
+  border-bottom: 5px double white;
+  padding: .2rem;
 }
 
 @keyframes blink{
