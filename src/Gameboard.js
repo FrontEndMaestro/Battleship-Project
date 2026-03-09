@@ -19,6 +19,7 @@ export default class Gameboard {
 
   placeShips(startPosition, endPosition, shipID) {
     if (shipID >= 5) throw Error("Incorrect ship");
+
     if (this.checkCoordinateValidity(startPosition, endPosition, shipID)) {
       this.ships[shipID].position.push(startPosition);
       this.ships[shipID].position.push(endPosition);
@@ -29,7 +30,7 @@ export default class Gameboard {
     return false;
   }
 
-  updateBoard(startPosition, endPosition, shipID) {
+  getAllCoordinates(startPosition, endPosition, shipID) {
     let numOfCells = this.ships[shipID].ship.getLength();
     let allCoordinates = [];
     if (startPosition[0] == endPosition[0]) {
@@ -44,13 +45,29 @@ export default class Gameboard {
       }
     }
 
+    return allCoordinates;
+  }
+
+  updateBoard(startPosition, endPosition, shipID) {
+    let allCoordinates = this.getAllCoordinates(
+      startPosition,
+      endPosition,
+      shipID,
+    );
+
     allCoordinates.forEach((coordinate) => {
       this.board[coordinate[1]][coordinate[0]] = shipID;
     });
   }
 
-  checkCoordinateValidity(startPosition, endPosition, index) {
-    let shipLength = this.ships[index].ship.getLength();
+  checkCoordinateValidity(startPosition, endPosition, shipID) {
+    let allCoordinates = this.getAllCoordinates(
+      startPosition,
+      endPosition,
+      shipID,
+    );
+
+    let shipLength = this.ships[shipID].ship.getLength();
     if (
       startPosition.every((value) => value < 10 && value >= 0) &&
       endPosition.every((value) => value < 10 && value >= 0)
@@ -59,10 +76,18 @@ export default class Gameboard {
         Math.abs(startPosition[0] - endPosition[0]) + 1 == shipLength ||
         Math.abs(startPosition[1] - endPosition[1]) + 1 == shipLength
       ) {
-        return true;
+        if (this.areCoordinatesEmpty(allCoordinates)) {
+          return true;
+        }
       }
     }
     return false;
+  }
+
+  areCoordinatesEmpty(allCoordinates) {
+    return allCoordinates.every(
+      (coordinates) => this.board[coordinates[1]][coordinates[0]] == -1,
+    );
   }
 
   attackHit(x, y) {
