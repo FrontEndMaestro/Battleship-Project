@@ -21,14 +21,17 @@ function startGame(player1, player2) {
   function changeTurn(playerType) {
     playerType == player1.type ? (turn = player2.type) : (turn = player1.type);
     displayTurn(turn, turn == player1.type ? player2.type : player1.type);
-    if (turn == "computer") {
+    if (turn == "Computer") {
       computerTurn(player2);
     }
   }
 
   function computerTurn(player2) {
     setTimeout(() => {
-      let computerPosition = computerAttack(player2.gameBoard).reverse();
+      let computerPosition = computerAttack(
+        player2.gameBoard,
+        generateHitPosition,
+      ).reverse();
       registerHit(computerPosition.join("-"), player1);
     }, 2000);
   }
@@ -45,8 +48,7 @@ function startGame(player1, player2) {
     let coordinateArray = coordinates.split("-").reverse();
     player.gameBoard.receiveAttack(coordinateArray[0], coordinateArray[1]);
     updateBoards();
-    checkForWinner(player1, player2);
-    changeTurn(turn);
+    if (!checkForWinner(player1, player2)) changeTurn(turn);
   }
 
   function setEventListener(validateTurn, registerHit) {
@@ -99,20 +101,23 @@ function startGame(player1, player2) {
       player1.gameBoard.ships.every((shipObject) => shipObject.ship.isSunk())
     ) {
       startNewGame("Player2 wins");
+      return true;
     } else if (
       player2.gameBoard.ships.every((shipObject) => shipObject.ship.isSunk())
     ) {
       startNewGame("Player1 wins");
+      return true;
     }
+    return false;
   }
 
   function startNewGame(winMessage) {
     setTimeout(() => {
       alert(winMessage);
-    }, 2000);
-    setTimeout(() => {
+
       let event = new Event("DOMContentLoaded");
       window.dispatchEvent(event);
     }, 2000);
+    
   }
 }
