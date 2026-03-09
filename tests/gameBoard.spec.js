@@ -138,3 +138,12 @@ test("Correctly return all coordinates", () => {
     [0, 2],
   ]);
 });
+
+test.only("correctly reset board",()=>{
+  let gameBoard=new Gameboard()
+  gameBoard.board[0][0]=9
+  gameBoard.board[0][2]=9 
+  gameBoard.board[0][2]=9
+  gameBoard.resetBoard()
+  expect(gameBoard.board[0][0]).toBe(-1)
+})
