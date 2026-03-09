@@ -1,9 +1,8 @@
 import Gameboard from "../src/Gameboard.js";
 import ship from "../src/ship.js";
 
-let gameBoard = new Gameboard();
-
 describe("Gameboard class", () => {
+  let gameBoard = new Gameboard();
   test("gameboard has a board", () => {
     expect(gameBoard.board).toBeDefined();
   });
@@ -15,6 +14,7 @@ describe("Gameboard class", () => {
 });
 
 describe("Place Ships", () => {
+  let gameBoard = new Gameboard();
   test("Define data structure to store ships", () => {
     expect(gameBoard.ships).toBeDefined();
     expect(gameBoard.ships.length).toBe(5);
@@ -37,10 +37,12 @@ describe("Place Ships", () => {
     expect(gameBoard.placeShips([10, 10], [10, 8], 4)).toBe(false);
     expect(gameBoard.placeShips([5, 5], [5, 9], 1)).toBe(false);
     expect(gameBoard.placeShips([5, 7], [8, 7], 1)).toBe(true);
+    expect(gameBoard.placeShips([3, 8], [5, 8], 2)).toBe(true); 
   });
 });
 
 describe("Test cases for receiveAttack method", () => {
+  let gameBoard = new Gameboard();
   test("attack hit the ship?", () => {
     gameBoard.placeShips([0, 0], [0, 2], 3);
     expect(gameBoard.attackHit(0, 1)).toBe(3);
@@ -52,15 +54,15 @@ describe("Test cases for receiveAttack method", () => {
   test("call attackHit with invalid coordinates", () => {
     expect(gameBoard.attackHit(10, 10)).toBe(-1);
   });
-
 });
 
 describe("All ships sunk?", () => {
+  let gameBoard = new Gameboard();
   gameBoard.placeShips([0, 0], [0, 2], 3); //len 3
   gameBoard.placeShips([5, 5], [9, 5], 0); //len 5
-  gameBoard.placeShips([5, 7], [8, 7], 1); //len 4
-  gameBoard.placeShips([2, 8], [4, 8], 2); //len 3
-  gameBoard.placeShips([1, 5], [1, 6], 4); //len 2
+  gameBoard.placeShips([5, 4], [8, 4], 1); //len 4
+  gameBoard.placeShips([3, 8], [5, 8], 2); //len 3
+  gameBoard.placeShips([1, 6], [1, 7], 4); //len 2
   gameBoard.receiveAttack(0, 0);
   gameBoard.receiveAttack(0, 1);
   gameBoard.receiveAttack(0, 2);
@@ -71,17 +73,17 @@ describe("All ships sunk?", () => {
   gameBoard.receiveAttack(8, 5);
   gameBoard.receiveAttack(9, 5);
 
-  gameBoard.receiveAttack(5, 7);
-  gameBoard.receiveAttack(6, 7);
-  gameBoard.receiveAttack(7, 7);
-  gameBoard.receiveAttack(8, 7);
+  gameBoard.receiveAttack(5, 4);
+  gameBoard.receiveAttack(6, 4);
+  gameBoard.receiveAttack(7, 4);
+  gameBoard.receiveAttack(8, 4);
 
-  gameBoard.receiveAttack(2, 8);
+  gameBoard.receiveAttack(5, 8);
   gameBoard.receiveAttack(3, 8);
   gameBoard.receiveAttack(4, 8);
 
   gameBoard.receiveAttack(1, 6);
-  gameBoard.receiveAttack(1, 5);
+  gameBoard.receiveAttack(1, 7);
 
   test("check if a ship is sunk when all positions are attacked", () => {
     expect(gameBoard.ships[3].ship.isSunk()).toBe(true);
@@ -94,24 +96,45 @@ describe("All ships sunk?", () => {
 });
 
 describe("Register ship positions on board", () => {
-  let gameBoard2 = new Gameboard();
+  let gameBoard = new Gameboard();
   test("method marks the coordinates with id of the ship", () => {
-    gameBoard2.updateBoard([0, 1], [0, 3], 3);
-    expect(gameBoard2.board[1][0]).toBe(3);
-    expect(gameBoard2.board[2][0]).toBe(3);
-    expect(gameBoard2.board[3][0]).toBe(3);
+    gameBoard.updateBoard([0, 1], [0, 3], 3);
+    expect(gameBoard.board[1][0]).toBe(3);
+    expect(gameBoard.board[2][0]).toBe(3);
+    expect(gameBoard.board[3][0]).toBe(3);
 
-    gameBoard2.updateBoard([5, 5], [5, 9], 0);
-    expect(gameBoard2.board[5][5]).toBe(0);
-    expect(gameBoard2.board[6][5]).toBe(0);
-    expect(gameBoard2.board[7][5]).toBe(0);
-    expect(gameBoard2.board[8][5]).toBe(0);
-    expect(gameBoard2.board[9][5]).toBe(0);
+    gameBoard.updateBoard([5, 5], [5, 9], 0);
+    expect(gameBoard.board[5][5]).toBe(0);
+    expect(gameBoard.board[6][5]).toBe(0);
+    expect(gameBoard.board[7][5]).toBe(0);
+    expect(gameBoard.board[8][5]).toBe(0);
+    expect(gameBoard.board[9][5]).toBe(0);
 
-    gameBoard2.updateBoard([0, 0], [2, 0], 3);
-    expect(gameBoard2.board[0][0]).toBe(3);
-    expect(gameBoard2.board[0][1]).toBe(3);
-    expect(gameBoard2.board[0][2]).toBe(3);
-    expect(gameBoard2.board[0][3]).toBe(-1)
+    gameBoard.updateBoard([0, 0], [2, 0], 3);
+    expect(gameBoard.board[0][0]).toBe(3);
+    expect(gameBoard.board[0][1]).toBe(3);
+    expect(gameBoard.board[0][2]).toBe(3);
+    expect(gameBoard.board[0][3]).toBe(-1);
   });
+});
+
+test("do not add ship if a ship is already placed", () => {
+  let gameBoard = new Gameboard();
+  gameBoard.board[0][1] = 2;
+  gameBoard.board[0][2] = 2;
+  expect(
+    gameBoard.areCoordinatesEmpty([
+      [1, 0],
+      [2, 0],
+    ]),
+  ).toBe(false);
+});
+
+test("Correctly return all coordinates", () => {
+  let gameBoard = new Gameboard();
+  expect(gameBoard.getAllCoordinates([0, 0], [0, 2], 3)).toEqual([
+    [0, 0],
+    [0, 1],
+    [0, 2],
+  ]);
 });
