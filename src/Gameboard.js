@@ -118,6 +118,15 @@ export default class Gameboard {
     }
   }
 
+  resetBoard(){
+    this.board.forEach((row,rowIndex)=>{
+      row.forEach((column,columnIndex)=>{
+        this.board[rowIndex][columnIndex]=-1
+      })
+    })
+  }
+
+
   allShipsSunk() {
     return this.ships.every((element) => element.ship.isSunk());
   }
