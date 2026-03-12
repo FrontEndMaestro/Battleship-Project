@@ -17,7 +17,10 @@ function humanShipPlacement() {
 
   const body = document.querySelector("body");
   const display = document.createElement("div");
-  display.setAttribute("style", "position:absolute;top:5%;border-bottom:5px groove white;border-left:5px groove white;border-right:5px groove white;padding:7px;");
+  display.setAttribute(
+    "style",
+    "position:absolute;top:5%;border-bottom:5px groove white;border-left:5px groove white;border-right:5px groove white;padding:7px;",
+  );
   display.textContent = "Place your Ships";
   const randomizeBtn = document.createElement("button");
   const startGameBtn = document.createElement("button");
@@ -76,16 +79,16 @@ function startGame(player1, player2, display) {
     playerType == player1.type ? (turn = player2.type) : (turn = player1.type);
     displayTurn(turn, turn == player1.type ? player2.type : player1.type);
     if (turn == "Computer") {
-      computerTurn(player2);
+      computerTurn();
     }
   }
 
-  function computerTurn(player2) {
+  function computerTurn() {
     setTimeout(() => {
       let computerPosition = computerAttack(
-        player2.gameBoard,
+        player1.gameBoard,
         generateHitPosition,
-      ).reverse();
+      );
       registerHit(computerPosition.join("-"), player1);
     }, 2000);
   }
@@ -100,10 +103,13 @@ function startGame(player1, player2, display) {
 
   function registerHit(coordinates, player) {
     //reverse to convert into x and y format
-    let coordinateArray = coordinates.split("-").reverse();
-    player.gameBoard.receiveAttack(coordinateArray[0], coordinateArray[1]);
-    updateBoards();
-    if (!checkForWinner(player1, player2)) changeTurn(turn);
+    let coordinateArray = coordinates.split("-");
+    if (
+      player.gameBoard.receiveAttack(coordinateArray[0], coordinateArray[1])!='duplicate'
+    ) {
+      updateBoards();
+      if (!checkForWinner(player1, player2)) changeTurn(turn);
+    }
   }
 
   function setEventListener(validateTurn, registerHit) {
@@ -139,9 +145,8 @@ function startGame(player1, player2, display) {
     const playerBoard = document.querySelector(`#${turn}`);
     if (turn == "human") {
       display.textContent = `Admiral , whats the move`;
-    }
-    else{
-      display.textContent="Computer is on the Attack"
+    } else {
+      display.textContent = "Computer is on the Attack";
     }
     const playerWatching = document.querySelector(`#${playerWithoutTurn}`);
     if (playerWatching.classList.contains("current-turn")) {
