@@ -3,8 +3,8 @@ export default function renderGameboard(player) {
   const boardDiv = document.createElement("div");
   boardDiv.classList.add("game-board");
   boardDiv.id = player.type;
-  player.gameBoard.board.forEach((row, x) => {
-    row.forEach((cell, y) => {
+  player.gameBoard.board.forEach((row, y) => {
+    row.forEach((cell, x) => {
       let gridCell = document.createElement("div");
       gridCell.classList.add("cell");
 
@@ -27,7 +27,7 @@ export default function renderGameboard(player) {
 }
 
 function markShipHit(cell, gameboard) {
-  let id = cell.id.split("-").reverse();
+  let id = cell.id.split("-");
   if (gameboard.board[id[1]][id[0]] == "O") {
     cell.classList.add("hit");
   }

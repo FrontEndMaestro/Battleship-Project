@@ -139,7 +139,7 @@ test("Correctly return all coordinates", () => {
   ]);
 });
 
-test.only("correctly reset board",()=>{
+test("correctly reset board",()=>{
   let gameBoard=new Gameboard()
   gameBoard.board[0][0]=9
   gameBoard.board[0][2]=9 
