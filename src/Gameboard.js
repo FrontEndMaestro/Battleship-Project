@@ -55,7 +55,6 @@ export default class Gameboard {
       this.ships[shipID].position[1],
       shipID,
     );
-    let shipLength = this.ships[shipID].ship.getLength();
     if (
       this.ships[shipID].position[0][0] == this.ships[shipID].position[1][0]
     ) {
@@ -108,15 +107,12 @@ export default class Gameboard {
 
   attackHit(x, y) {
     return this.ships.findIndex((element) => {
-      if (element.position.length != 0) {
-        return (
-          (element.position[0][0] == x && element.position[0][1] == y) ||
-          (element.position[1][0] == x && element.position[1][1] == y) ||
-          (x >= element.position[0][0] &&
-            x <= element.position[1][0] &&
-            y >= element.position[0][1] &&
-            y <= element.position[1][1])
-        );
+      if (element.position.length !== 0) {
+        const minX = Math.min(element.position[0][0], element.position[1][0]);
+        const maxX = Math.max(element.position[0][0], element.position[1][0]);
+        const minY = Math.min(element.position[0][1], element.position[1][1]);
+        const maxY = Math.max(element.position[0][1], element.position[1][1]);
+        return x >= minX && x <= maxX && y >= minY && y <= maxY;
       }
       return false;
     });
@@ -124,6 +120,7 @@ export default class Gameboard {
 
   receiveAttack(x, y) {
     let index = this.attackHit(x, y);
+    if (this.board[y][x] === "O" || this.board[y][x] === "X") return 'duplicate';
     if (index != -1) {
       this.ships[index].ship.hit();
       this.board[y][x] = "O";
