@@ -7,11 +7,11 @@ export default function generateRandomPositons(gameboard, shipID) {
     start[1] = Math.floor(Math.random() * 10);
     let verticalOrHorizontal = Math.floor(Math.random() * 2);
     if (verticalOrHorizontal == 1) {
-      //vertical
+      //horizontal
       final[0] = start[0] + (length - 1);
       final[1] = start[1];
     } else {
-      //horizontal
+      //vertical
       final[0] = start[0];
       final[1] = start[1] + (length - 1);
     }
