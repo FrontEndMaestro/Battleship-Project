@@ -7,27 +7,44 @@ export default function renderGameboard(player) {
     row.forEach((cell, y) => {
       let gridCell = document.createElement("div");
       gridCell.classList.add("cell");
+
       gridCell.id = `${x}` + "-" + `${y}`;
-      if (cell != -1) gridCell.textContent = cell;
-      markShipHit(gridCell);
+
+      if (player.type != "Computer")
+        if (cell != -1 && cell != "X") {
+          gridCell.classList.add("ship-cell");
+        }
+      if (cell == "X") {
+        gridCell.classList.add("missed-shot");
+      }
+      markShipHit(gridCell, player.gameBoard);
       boardDiv.appendChild(gridCell);
     });
   });
+
   displayPlayerName(boardDiv);
   body.appendChild(boardDiv);
 }
 
-function markShipHit(cell) {
-  if (cell.textContent == "O") {
+function markShipHit(cell, gameboard) {
+  let id = cell.id.split("-").reverse();
+  if (gameboard.board[id[1]][id[0]] == "O") {
     cell.classList.add("hit");
   }
 }
 
 function displayPlayerName(gridContainer) {
   let display = document.createElement("span");
-  display.textContent =
-    gridContainer.id.charAt(0).toUpperCase() + gridContainer.id.slice(1);
-  display.classList.add("display-name");
+ if(gridContainer.id.charAt(0).toUpperCase() + gridContainer.id.slice(1)=='Human'){
+    display.textContent="Your fleet"
+    display.classList.add("green-color")
+  }
+
+  else{
+    display.classList.add("red-color")
+    display.textContent="Enemy Waters"
+  }
+ display.classList.add("display-name");
   display.id = "display-" + gridContainer.id;
   gridContainer.appendChild(display);
 }
