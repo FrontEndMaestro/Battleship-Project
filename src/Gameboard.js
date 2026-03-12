@@ -48,6 +48,22 @@ export default class Gameboard {
     return allCoordinates;
   }
 
+  getCoordinatesOfShip(shipID) {
+    let alignment;
+    let coordinates = this.getAllCoordinates(
+      this.ships[shipID].position[0],
+      this.ships[shipID].position[1],
+      shipID,
+    );
+    let shipLength = this.ships[shipID].ship.getLength();
+    if (
+      this.ships[shipID].position[0][0] == this.ships[shipID].position[1][0]
+    ) {
+      alignment = "vertical";
+    } else alignment = "horizontal";
+    return { coordinates, alignment };
+  }
+
   updateBoard(startPosition, endPosition, shipID) {
     let allCoordinates = this.getAllCoordinates(
       startPosition,
@@ -118,14 +134,13 @@ export default class Gameboard {
     }
   }
 
-  resetBoard(){
-    this.board.forEach((row,rowIndex)=>{
-      row.forEach((column,columnIndex)=>{
-        this.board[rowIndex][columnIndex]=-1
-      })
-    })
+  resetBoard() {
+    this.board.forEach((row, rowIndex) => {
+      row.forEach((column, columnIndex) => {
+        this.board[rowIndex][columnIndex] = -1;
+      });
+    });
   }
-
 
   allShipsSunk() {
     return this.ships.every((element) => element.ship.isSunk());
