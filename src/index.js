@@ -9,7 +9,6 @@ import { computerAttack, generateHitPosition } from "./Computer";
 window.addEventListener("DOMContentLoaded", () => {
   document.querySelector("body").innerHTML = "";
   humanShipPlacement();
-
 });
 
 function humanShipPlacement() {
@@ -17,6 +16,9 @@ function humanShipPlacement() {
   placeHumanShips(player1);
 
   const body = document.querySelector("body");
+  const display = document.createElement("div");
+  display.setAttribute("style", "position:absolute;top:5%;border-bottom:5px groove white;border-left:5px groove white;border-right:5px groove white;padding:7px;");
+  display.textContent = "Place your Ships";
   const randomizeBtn = document.createElement("button");
   const startGameBtn = document.createElement("button");
   startGameBtn.textContent = "Start";
@@ -38,6 +40,7 @@ function humanShipPlacement() {
     </svg>`;
 
   startGameBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="#fc2b2a" d="M23.505 1.5v5.001h-1v2h-1v1h-1v-1h-1v-1h-1.001v-1h-1v-1h-1v-1h-1v-1h1v-1h2V1.5zM11.502 13.503v2h-1v1h-1v1h-1v1.001h-1v1H5.5v-2h1v-1h1v-1h1v-1h1v-1.001z"/><path fill="#fc2b2a" d="M19.504 9.502v-1h-1v-1h-1V6.5h-1v-1h-1v-1h-1.001v1h-1v1h-1v1h-1v1h-1.001v1H4.501v1h-1v1.001h-1v1H1.5v2h4v-1h1.001v-1h1v-1h1v-1h1v1h-1v1h-1v2h1v-1h1v-1h3.002v3.001h-1v1h-1.001v1h2v-1h1v-1h1.001v1h-1v1h-1v1h-1v1h-1.001v4.002h2v-1h1v-1h1.001v-1h1v-6.002h1v-1h1v-1h1v-1h1.001v-1.001h1v-1zm-2-1v2h-1v1h-2.001v-1h-1v-2h1v-1h2v1z"/></svg>`;
+  body.appendChild(display);
   body.appendChild(randomizeBtn);
   body.appendChild(startGameBtn);
   renderGameboard(player1);
@@ -52,18 +55,19 @@ function humanShipPlacement() {
 
   startGameBtn.addEventListener("click", () => {
     let player2 = new Player("Computer", new gameBoard());
+    body.appendChild(display);
     placeComputerShip(player2);
-    //renderGameboard(player1);
     renderGameboard(player2);
     const buttons = document.querySelectorAll("button");
     buttons.forEach((button) => {
       button.remove();
     });
-    startGame(player1, player2);
+    display.textContent = "Shock and Awe, Attack!!";
+    startGame(player1, player2, display);
   });
 }
 
-function startGame(player1, player2) {
+function startGame(player1, player2, display) {
   setEventListener(validateTurn, registerHit);
   let turn = player1.type;
   displayTurn(turn, player2.type);
@@ -88,6 +92,7 @@ function startGame(player1, player2) {
 
   function updateBoards() {
     document.querySelector("body").innerHTML = "";
+    document.querySelector("body").appendChild(display);
     renderGameboard(player1);
     renderGameboard(player2);
     setEventListener(validateTurn, registerHit);
@@ -132,30 +137,30 @@ function startGame(player1, player2) {
 
   function displayTurn(turn, playerWithoutTurn) {
     const playerBoard = document.querySelector(`#${turn}`);
+    if (turn == "human") {
+      display.textContent = `Admiral , whats the move`;
+    }
+    else{
+      display.textContent="Computer is on the Attack"
+    }
     const playerWatching = document.querySelector(`#${playerWithoutTurn}`);
-    const playerDisplay = document.querySelector(`#display-${turn}`);
-    const playerWatchingDisplay = document.querySelector(
-      `#display-${playerWithoutTurn}`,
-    );
     if (playerWatching.classList.contains("current-turn")) {
-      playerWatchingDisplay.classList.remove("highlight-name");
       playerBoard.classList.remove("current-turn");
     }
 
     playerWatching.classList.add("current-turn");
-    playerDisplay.classList.add("highlight-name");
   }
 
   function checkForWinner(player1, player2) {
     if (
       player1.gameBoard.ships.every((shipObject) => shipObject.ship.isSunk())
     ) {
-      startNewGame("Player2 wins");
+      startNewGame("Computer wins :(");
       return true;
     } else if (
       player2.gameBoard.ships.every((shipObject) => shipObject.ship.isSunk())
     ) {
-      startNewGame("Player1 wins");
+      startNewGame("You win!");
       return true;
     }
     return false;
@@ -168,6 +173,5 @@ function startGame(player1, player2) {
       let event = new Event("DOMContentLoaded");
       window.dispatchEvent(event);
     }, 2000);
-    
   }
 }
