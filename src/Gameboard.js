@@ -120,7 +120,8 @@ export default class Gameboard {
 
   receiveAttack(x, y) {
     let index = this.attackHit(x, y);
-    if (this.board[y][x] === "O" || this.board[y][x] === "X") return 'duplicate';
+    if (this.board[y][x] === "O" || this.board[y][x] === "X")
+      return "duplicate";
     if (index != -1) {
       this.ships[index].ship.hit();
       this.board[y][x] = "O";
@@ -137,6 +138,7 @@ export default class Gameboard {
         this.board[rowIndex][columnIndex] = -1;
       });
     });
+    this.ships = this.initializeShips();
   }
 
   allShipsSunk() {

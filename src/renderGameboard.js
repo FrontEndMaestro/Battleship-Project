@@ -35,16 +35,17 @@ function markShipHit(cell, gameboard) {
 
 function displayPlayerName(gridContainer) {
   let display = document.createElement("span");
- if(gridContainer.id.charAt(0).toUpperCase() + gridContainer.id.slice(1)=='Human'){
-    display.textContent="Your fleet"
-    display.classList.add("green-color")
+  if (
+    gridContainer.id.charAt(0).toUpperCase() + gridContainer.id.slice(1) ==
+    "Human"
+  ) {
+    display.textContent = "Your fleet";
+    display.classList.add("green-color");
+  } else {
+    display.classList.add("red-color");
+    display.textContent = "Enemy Waters";
   }
-
-  else{
-    display.classList.add("red-color")
-    display.textContent="Enemy Waters"
-  }
- display.classList.add("display-name");
+  display.classList.add("display-name");
   display.id = "display-" + gridContainer.id;
   gridContainer.appendChild(display);
 }
